@@ -1,0 +1,373 @@
+/* ═══════════════════════════════════════════════
+   كل سنة وانتي حياتي — Global Design System
+   Warm & Nostalgic · Polaroid · Handwritten Feel
+   ═══════════════════════════════════════════════ */
+
+/* ── Google Fonts (loaded in Layout.astro) ── */
+
+/* ── Design Tokens ── */
+:root {
+  /* Warm palette */
+  --color-bg-deep: #1a0f0a;
+  --color-bg-dark: #2a1810;
+  --color-bg-warm: #3d2317;
+  --color-bg-card: #f5ece3;
+  --color-bg-card-hover: #faf4ed;
+
+  /* Text colors */
+  --color-text-cream: #f5ece3;
+  --color-text-warm: #e8d5c4;
+  --color-text-muted: #b89a84;
+  --color-text-dark: #2a1810;
+  --color-text-caption: #7a5c47;
+
+  /* Accent colors */
+  --color-gold: #d4a853;
+  --color-gold-light: #e8c97a;
+  --color-gold-glow: rgba(212, 168, 83, 0.3);
+  --color-rose: #c4727a;
+  --color-rose-light: #e8a5ab;
+  --color-rose-glow: rgba(196, 114, 122, 0.4);
+  --color-burgundy: #6b2d3e;
+
+  /* Gradients */
+  --gradient-hero: linear-gradient(
+    180deg,
+    #1a0f0a 0%,
+    #2a1810 30%,
+    #3d2317 70%,
+    #2a1810 100%
+  );
+  --gradient-gold-shimmer: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(212, 168, 83, 0.15) 50%,
+    transparent 100%
+  );
+  --gradient-card-glow: radial-gradient(
+    ellipse at center,
+    rgba(212, 168, 83, 0.08) 0%,
+    transparent 70%
+  );
+  --gradient-ending: linear-gradient(
+    180deg,
+    #2a1810 0%,
+    #1a0f0a 50%,
+    #0d0705 100%
+  );
+  --gradient-reveal: radial-gradient(
+    circle at center,
+    rgba(212, 168, 83, 0.2) 0%,
+    transparent 60%
+  );
+
+  /* Shadows */
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 12px 48px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 30px rgba(212, 168, 83, 0.2);
+
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 6rem;
+  --space-2xl: 10rem;
+
+  /* Typography */
+  --font-calligraphy: 'Aref Ruqaa', serif;
+  --font-body: 'Tajawal', sans-serif;
+
+  /* Transitions */
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --transition-base: 0.3s var(--ease-smooth);
+  --transition-slow: 0.6s var(--ease-smooth);
+}
+
+/* ── Reset & Base ── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  font-size: 16px;
+  /* Fix for mobile Safari viewport height */
+  --vh: 1vh;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg-deep);
+  color: var(--color-text-cream);
+  direction: rtl;
+  line-height: 1.8;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Mobile touch optimizations */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Scrollbar Styling ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-light);
+}
+
+/* ── Keyframe Animations ── */
+
+/* Fade in from below */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade in simple */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Gentle float up and down */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+/* Bounce for scroll arrow */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-20px); }
+  60% { transform: translateY(-10px); }
+}
+
+/* Heart floating upwards */
+@keyframes heartFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100vh) scale(1) rotate(15deg);
+  }
+}
+
+/* Golden shimmer sweep */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Pulse glow */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(212, 168, 83, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(212, 168, 83, 0.3);
+  }
+}
+
+/* Card flip */
+@keyframes cardFlip {
+  0% { transform: perspective(800px) rotateY(0deg); }
+  100% { transform: perspective(800px) rotateY(180deg); }
+}
+
+/* Scale in with bounce */
+@keyframes scaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Sparkle */
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+/* Text glow reveal */
+@keyframes textGlow {
+  0% {
+    text-shadow: 0 0 10px rgba(212, 168, 83, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 30px rgba(212, 168, 83, 0.6),
+                 0 0 60px rgba(212, 168, 83, 0.3),
+                 0 0 80px rgba(196, 114, 122, 0.2);
+  }
+  100% {
+    text-shadow: 0 0 20px rgba(212, 168, 83, 0.4),
+                 0 0 40px rgba(212, 168, 83, 0.2);
+  }
+}
+
+/* Gentle sway */
+@keyframes sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+/* Fade in from side for timeline cards */
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Envelope open */
+@keyframes envelopeOpen {
+  0% { transform: rotateX(0deg); }
+  100% { transform: rotateX(180deg); }
+}
+
+/* Background warm pulse */
+@keyframes warmPulse {
+  0%, 100% {
+    background-color: var(--color-bg-deep);
+  }
+  50% {
+    background-color: #241510;
+  }
+}
+
+/* ── Utility Classes ── */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-right {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
+}
+
+.fade-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-in-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
+}
+
+.fade-in-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Stagger delay helpers */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+
+/* ── Selection Styling ── */
+::selection {
+  background: var(--color-rose);
+  color: var(--color-text-cream);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  :root {
+    --space-lg: 3rem;
+    --space-xl: 4rem;
+    --space-2xl: 6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+
+  :root {
+    --space-lg: 2.5rem;
+    --space-xl: 3.5rem;
+    --space-2xl: 5rem;
+  }
+}
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

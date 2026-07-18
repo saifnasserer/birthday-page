@@ -1,0 +1,116 @@
+---
+// Emotional ending section — a heartfelt closing message
+---
+
+<section class="ending-section" id="ending">
+  <div class="ending-glow" aria-hidden="true"></div>
+
+  <div class="ending-content fade-in-up" data-animate>
+    <div class="ending-decorative">✦</div>
+
+    <p class="ending-text">
+      كل لحظة معاكي بتكون أحلى من اللي قبلها
+      <br />
+      <br />
+      انتي مش بس حبيبتي، انتي حياتي كلها
+      <br />
+      <br />
+      وكل يوم بيعدي بحبك أكتر
+    </p>
+
+    <div class="ending-signature">
+      <span class="signature-heart">♥</span>
+      <span class="signature-text">بحبك</span>
+      <span class="signature-heart">♥</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ending-section {
+    position: relative;
+    padding: var(--space-2xl) var(--space-md);
+    background: var(--gradient-ending);
+    text-align: center;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .ending-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(
+      circle,
+      rgba(212, 168, 83, 0.06) 0%,
+      transparent 60%
+    );
+    pointer-events: none;
+  }
+
+  .ending-content {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 var(--space-sm);
+  }
+
+  .ending-decorative {
+    font-size: 1.2rem;
+    color: var(--color-gold);
+    opacity: 0.4;
+    margin-bottom: var(--space-lg);
+    letter-spacing: 0.8rem;
+  }
+
+  .ending-text {
+    font-family: var(--font-calligraphy);
+    font-size: clamp(1.2rem, 4.5vw, 2rem);
+    color: var(--color-text-warm);
+    line-height: 2;
+    font-weight: 400;
+  }
+
+  .ending-signature {
+    margin-top: var(--space-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+
+  .signature-text {
+    font-family: var(--font-calligraphy);
+    font-size: clamp(1.6rem, 5vw, 2.5rem);
+    color: var(--color-gold);
+    animation: textGlow 4s infinite;
+  }
+
+  .signature-heart {
+    color: var(--color-rose);
+    font-size: 1rem;
+    animation: float 3s infinite;
+  }
+
+  .signature-heart:last-child {
+    animation-delay: 1.5s;
+  }
+
+  @media (max-width: 768px) {
+    .ending-section {
+      padding: var(--space-xl) var(--space-sm);
+    }
+
+    .ending-glow {
+      width: 250px;
+      height: 250px;
+    }
+
+    .ending-text {
+      line-height: 2.2;
+    }
+  }
+</style>

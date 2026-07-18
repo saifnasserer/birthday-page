@@ -1,0 +1,192 @@
+---
+import VideoCard from './VideoCard.astro';
+
+// Video data — chronologically ordered by filename date
+const videos = [
+  {
+    src: '/videos/VID_20240705_202503.mp4',
+    date: '٥ يوليو ٢٠٢٤',
+    caption: 'أكتب ذكرياتك هنا...',
+  },
+  {
+    src: '/videos/VID-20240816-WA0024.mp4',
+    date: '١٦ أغسطس ٢٠٢٤',
+    caption: 'أكتب ذكرياتك هنا...',
+  },
+  {
+    src: '/videos/VID_20240821_095313.mp4',
+    date: '٢١ أغسطس ٢٠٢٤',
+    caption: 'أكتب ذكرياتك هنا...',
+  },
+  {
+    src: '/videos/VID_20240821_124141.mp4',
+    date: '٢١ أغسطس ٢٠٢٤',
+    caption: 'أكتب ذكرياتك هنا...',
+  },
+  {
+    src: '/videos/VID_20240821_130010.mp4',
+    date: '٢١ أغسطس ٢٠٢٤',
+    caption: 'أكتب ذكرياتك هنا...',
+  },
+  {
+    src: '/videos/VID_20241109_194055.mp4',
+    date: '٩ نوفمبر ٢٠٢٤',
+    caption: 'أكتب ذكرياتك هنا...',
+  },
+  {
+    src: '/videos/VID_20260513_152455.mp4',
+    date: '١٣ مايو ٢٠٢٦',
+    caption: 'أكتب ذكرياتك هنا...',
+  },
+  {
+    src: '/videos/VID_20260513_205012.mp4',
+    date: '١٣ مايو ٢٠٢٦',
+    caption: 'أكتب ذكرياتك هنا...',
+  },
+  {
+    src: '/videos/VID_20260607_142138.mp4',
+    date: '٧ يونيو ٢٠٢٦',
+    caption: 'أكتب ذكرياتك هنا...',
+  },
+  {
+    src: '/videos/VID_20260607_170841.mp4',
+    date: '٧ يونيو ٢٠٢٦',
+    caption: 'أكتب ذكرياتك هنا...',
+  },
+  {
+    src: '/videos/VID_20260617_140115.mp4',
+    date: '١٧ يونيو ٢٠٢٦',
+    caption: 'أكتب ذكرياتك هنا...',
+  },
+  {
+    src: '/videos/VID_20260621_144359.mp4',
+    date: '٢١ يونيو ٢٠٢٦',
+    caption: 'أكتب ذكرياتك هنا...',
+  },
+];
+---
+
+<section class="timeline-section" id="memories">
+  <div class="timeline-header fade-in-up" data-animate>
+    <h2 class="timeline-title">لحظاتنا سوا</h2>
+    <div class="timeline-subtitle">من أول يوم لحد النهاردة</div>
+    <div class="timeline-divider">
+      <span class="divider-line"></span>
+      <span class="divider-heart">♥</span>
+      <span class="divider-line"></span>
+    </div>
+  </div>
+
+  <div class="timeline-container">
+    <!-- The golden vertical line -->
+    <div class="timeline-line" aria-hidden="true"></div>
+
+    <div class="timeline-cards">
+      {videos.map((video, index) => (
+        <VideoCard
+          videoSrc={video.src}
+          date={video.date}
+          caption={video.caption}
+          index={index}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .timeline-section {
+    position: relative;
+    padding: var(--space-xl) var(--space-md);
+    z-index: 1;
+  }
+
+  /* Section header */
+  .timeline-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+  }
+
+  .timeline-title {
+    font-family: var(--font-calligraphy);
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--color-gold);
+    margin-bottom: var(--space-xs);
+  }
+
+  .timeline-subtitle {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    font-weight: 300;
+  }
+
+  .timeline-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+  }
+
+  .divider-line {
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-gold),
+      transparent
+    );
+  }
+
+  .divider-heart {
+    color: var(--color-rose);
+    font-size: 0.9rem;
+    animation: float 3s infinite;
+  }
+
+  /* Timeline container */
+  .timeline-container {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* The golden vertical line */
+  .timeline-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      var(--color-gold) 5%,
+      var(--color-gold) 95%,
+      transparent 100%
+    );
+    transform: translateX(-50%);
+    opacity: 0.4;
+  }
+
+  .timeline-cards {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Mobile: hide the timeline line */
+  @media (max-width: 768px) {
+    .timeline-line {
+      display: none;
+    }
+
+    .timeline-section {
+      padding: var(--space-lg) var(--space-sm);
+    }
+  }
+</style>

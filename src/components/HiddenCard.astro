@@ -1,0 +1,355 @@
+---
+// Hidden Card — The secret surprise at the end
+// Reveals "هنيكك 💗" with confetti explosion
+---
+
+<section class="hidden-section" id="hidden-section">
+  <!-- Extra whitespace to make her think the page is over -->
+  <div class="spacer"></div>
+
+  <div class="hidden-card-container" data-animate>
+    <!-- The sealed envelope -->
+    <div class="envelope" id="secret-envelope" role="button" tabindex="0" aria-label="اضغطي هنا">
+      <div class="envelope-front">
+        <div class="envelope-seal">
+          <span class="seal-heart">💌</span>
+        </div>
+        <p class="envelope-hint">اضغطي هنا</p>
+        <div class="envelope-shimmer"></div>
+      </div>
+
+      <!-- The revealed content (hidden initially) -->
+      <div class="envelope-reveal" id="envelope-reveal">
+        <div class="reveal-bg"></div>
+        <div class="reveal-content">
+          <div class="reveal-sparkles" aria-hidden="true">
+            <span class="sparkle s1">✦</span>
+            <span class="sparkle s2">✧</span>
+            <span class="sparkle s3">✦</span>
+            <span class="sparkle s4">✧</span>
+            <span class="sparkle s5">✦</span>
+            <span class="sparkle s6">✧</span>
+          </div>
+          <p class="reveal-text">هنيكك</p>
+          <span class="reveal-heart">💗</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import confetti from 'canvas-confetti';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const envelope = document.getElementById('secret-envelope');
+    const reveal = document.getElementById('envelope-reveal');
+    let isRevealed = false;
+
+    function triggerConfetti() {
+      const colors = ['#d4a853', '#e8c97a', '#c4727a', '#e8a5ab', '#f5ece3'];
+
+      // Main burst
+      confetti({
+        particleCount: 80,
+        spread: 80,
+        origin: { y: 0.6, x: 0.5 },
+        colors: colors,
+        ticks: 200,
+        gravity: 0.8,
+        decay: 0.94,
+      });
+
+      // Side bursts
+      setTimeout(() => {
+        confetti({
+          particleCount: 50,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0.1, y: 0.6 },
+          colors: colors,
+          gravity: 0.8,
+        });
+      }, 200);
+
+      setTimeout(() => {
+        confetti({
+          particleCount: 50,
+          angle: 120,
+          spread: 55,
+          origin: { x: 0.9, y: 0.6 },
+          colors: colors,
+          gravity: 0.8,
+        });
+      }, 350);
+
+      // Final rose burst
+      setTimeout(() => {
+        confetti({
+          particleCount: 30,
+          spread: 120,
+          origin: { y: 0.5, x: 0.5 },
+          colors: ['#c4727a', '#e8a5ab'],
+          shapes: ['circle'],
+          scalar: 1.3,
+          gravity: 0.6,
+        });
+      }, 550);
+    }
+
+    function revealSecret() {
+      if (isRevealed) return;
+      isRevealed = true;
+
+      envelope?.classList.add('opened');
+      reveal?.classList.add('visible');
+
+      // Small vibration feedback on mobile if supported
+      if ('vibrate' in navigator) {
+        navigator.vibrate([50, 30, 50]);
+      }
+
+      triggerConfetti();
+
+      document.getElementById('hidden-section')?.classList.add('revealed');
+    }
+
+    envelope?.addEventListener('click', revealSecret);
+    // Touch support
+    envelope?.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      revealSecret();
+    });
+    envelope?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        revealSecret();
+      }
+    });
+  });
+</script>
+
+<style>
+  .hidden-section {
+    position: relative;
+    z-index: 1;
+    background: var(--color-bg-deep);
+    transition: background 1.5s var(--ease-smooth);
+  }
+
+  .hidden-section.revealed {
+    background: radial-gradient(
+      ellipse at center,
+      #2a1810 0%,
+      #1a0f0a 60%,
+      #0d0705 100%
+    );
+  }
+
+  .spacer {
+    height: 25vh;
+  }
+
+  .hidden-card-container {
+    display: flex;
+    justify-content: center;
+    padding-bottom: var(--space-2xl);
+    min-height: 50vh;
+    align-items: center;
+    /* Animation */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
+  }
+
+  .hidden-card-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Envelope */
+  .envelope {
+    position: relative;
+    width: 180px;
+    height: 150px;
+    cursor: pointer;
+    transition: transform 0.3s var(--ease-smooth);
+    outline: none;
+    /* Better touch target */
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Desktop hover */
+  @media (min-width: 769px) {
+    .envelope:hover {
+      transform: scale(1.08);
+    }
+  }
+
+  /* Mobile active tap */
+  .envelope:active {
+    transform: scale(0.95);
+  }
+
+  .envelope:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 8px;
+    border-radius: 8px;
+  }
+
+  .envelope-front {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f5ece3 0%, #e8d5c4 100%);
+    border-radius: 10px;
+    box-shadow: var(--shadow-card), 0 0 25px rgba(212, 168, 83, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    overflow: hidden;
+    transition: opacity 0.6s var(--ease-smooth), transform 0.6s var(--ease-smooth);
+    animation: envelopePulse 3s infinite;
+  }
+
+  @keyframes envelopePulse {
+    0%, 100% {
+      box-shadow: var(--shadow-card), 0 0 20px rgba(212, 168, 83, 0.1);
+    }
+    50% {
+      box-shadow: var(--shadow-card), 0 0 40px rgba(212, 168, 83, 0.25);
+    }
+  }
+
+  .envelope.opened .envelope-front {
+    opacity: 0;
+    transform: scale(0.7) rotateY(90deg);
+    pointer-events: none;
+  }
+
+  .envelope-seal {
+    font-size: 2.5rem;
+    animation: float 3s infinite;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+  }
+
+  .envelope-hint {
+    font-family: var(--font-calligraphy);
+    font-size: 1rem;
+    color: var(--color-text-caption);
+    opacity: 0.8;
+    animation: fadeIn 2s infinite alternate;
+  }
+
+  .envelope-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(212, 168, 83, 0.12) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite linear;
+    border-radius: 10px;
+  }
+
+  /* Reveal */
+  .envelope-reveal {
+    position: absolute;
+    inset: -120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s 0.3s var(--ease-smooth);
+  }
+
+  .envelope-reveal.visible {
+    opacity: 1;
+  }
+
+  .reveal-bg {
+    position: absolute;
+    inset: -200px;
+    background: var(--gradient-reveal);
+    animation: fadeIn 1s forwards;
+  }
+
+  .reveal-content {
+    position: relative;
+    text-align: center;
+  }
+
+  .reveal-text {
+    font-family: var(--font-calligraphy);
+    font-size: clamp(2.5rem, 12vw, 5rem);
+    font-weight: 700;
+    color: var(--color-gold);
+    animation: scaleIn 0.8s 0.4s var(--ease-bounce) backwards, textGlow 3s 1.2s infinite;
+    filter: drop-shadow(0 0 30px rgba(212, 168, 83, 0.5));
+    white-space: nowrap;
+  }
+
+  .reveal-heart {
+    display: block;
+    font-size: 2.5rem;
+    margin-top: var(--space-sm);
+    animation: scaleIn 0.6s 0.8s var(--ease-bounce) backwards, float 2s 1.5s infinite;
+  }
+
+  /* Sparkles around the text */
+  .reveal-sparkles {
+    position: absolute;
+    inset: -50px;
+    pointer-events: none;
+  }
+
+  .sparkle {
+    position: absolute;
+    color: var(--color-gold-light);
+    font-size: 0.9rem;
+    animation: sparkle 2s infinite;
+  }
+
+  .s1 { top: 0; left: 20%; animation-delay: 0s; }
+  .s2 { top: 10%; right: 10%; animation-delay: 0.3s; }
+  .s3 { bottom: 20%; left: 5%; animation-delay: 0.6s; }
+  .s4 { bottom: 0; right: 20%; animation-delay: 0.9s; }
+  .s5 { top: 40%; left: -5%; animation-delay: 1.2s; color: var(--color-rose-light); }
+  .s6 { top: 30%; right: 0%; animation-delay: 1.5s; color: var(--color-rose-light); }
+
+  /* ── Mobile ── */
+  @media (max-width: 768px) {
+    .spacer {
+      height: 18vh;
+    }
+
+    .hidden-card-container {
+      min-height: 45vh;
+    }
+
+    .envelope {
+      width: 170px;
+      height: 140px;
+    }
+
+    .envelope-seal {
+      font-size: 2.2rem;
+    }
+
+    .envelope-reveal {
+      inset: -80px;
+    }
+
+    .reveal-heart {
+      font-size: 2rem;
+    }
+  }
+</style>

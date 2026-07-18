@@ -1,0 +1,154 @@
+---
+// Hero section — full viewport with the main birthday title
+---
+
+<section class="hero" id="hero">
+  <div class="hero-bg-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-decorative-top">✦</div>
+    <h1 class="hero-title">
+      <span class="hero-line hero-line-1">كل سنة</span>
+      <span class="hero-line hero-line-2">وانتي حياتي</span>
+      <span class="hero-line hero-line-3">ي عروستي</span>
+    </h1>
+    <div class="hero-subtitle">
+      <span class="hero-heart">💛</span>
+    </div>
+    <div class="hero-decorative-bottom">✦ ✦ ✦</div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh; /* safe viewport height for mobile */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-hero);
+    overflow: hidden;
+  }
+
+  .hero-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-card-glow);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: var(--space-md);
+    opacity: 0;
+    animation: fadeIn 2s var(--ease-smooth) forwards;
+  }
+
+  .hero-decorative-top {
+    font-size: 1.2rem;
+    color: var(--color-gold);
+    opacity: 0.5;
+    margin-bottom: var(--space-lg);
+    animation: pulseGlow 3s infinite;
+    letter-spacing: 0.8rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-calligraphy);
+    font-weight: 700;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .hero-line {
+    display: block;
+    opacity: 0;
+    animation: fadeInUp 1.2s var(--ease-smooth) forwards;
+  }
+
+  .hero-line-1 {
+    font-size: clamp(2.2rem, 8vw, 4.5rem);
+    color: var(--color-text-cream);
+    animation-delay: 0.3s;
+  }
+
+  .hero-line-2 {
+    font-size: clamp(2.5rem, 9vw, 5rem);
+    color: var(--color-gold);
+    animation-delay: 0.8s;
+    background: linear-gradient(
+      90deg,
+      var(--color-gold-light),
+      var(--color-gold),
+      var(--color-gold-light)
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeInUp 1.2s 0.8s var(--ease-smooth) forwards, shimmer 4s 2s infinite linear;
+  }
+
+  .hero-line-3 {
+    font-size: clamp(1.8rem, 7vw, 3.5rem);
+    color: var(--color-rose-light);
+    animation-delay: 1.3s;
+  }
+
+  .hero-subtitle {
+    margin-top: var(--space-md);
+    opacity: 0;
+    animation: fadeIn 1s 2s var(--ease-smooth) forwards;
+  }
+
+  .hero-heart {
+    font-size: 2.5rem;
+    display: inline-block;
+    animation: float 3s 2.3s infinite var(--ease-smooth);
+    filter: drop-shadow(0 0 20px rgba(212, 168, 83, 0.4));
+  }
+
+  .hero-decorative-bottom {
+    margin-top: var(--space-sm);
+    font-size: 0.7rem;
+    color: var(--color-gold);
+    opacity: 0;
+    letter-spacing: 0.6rem;
+    animation: fadeIn 1s 2.3s var(--ease-smooth) forwards;
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .hero-content {
+      padding: var(--space-sm) var(--space-sm);
+    }
+
+    .hero-title {
+      gap: 0.4rem;
+    }
+
+    .hero-decorative-top {
+      margin-bottom: var(--space-md);
+    }
+
+    .hero-heart {
+      font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .hero-line-1 {
+      font-size: 2rem;
+    }
+    .hero-line-2 {
+      font-size: 2.2rem;
+    }
+    .hero-line-3 {
+      font-size: 1.6rem;
+    }
+  }
+</style>

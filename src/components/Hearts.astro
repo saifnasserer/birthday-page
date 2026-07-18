@@ -1,0 +1,79 @@
+---
+// Floating hearts particle layer — CSS only, no JS needed
+// Reduced count for mobile performance
+---
+
+<div class="hearts-container" aria-hidden="true">
+  {Array.from({ length: 12 }).map((_, i) => (
+    <span
+      class="heart"
+      style={`
+        --delay: ${Math.random() * 10}s;
+        --duration: ${8 + Math.random() * 10}s;
+        --x: ${5 + Math.random() * 90}%;
+        --size: ${0.5 + Math.random() * 0.8}rem;
+        --sway: ${-20 + Math.random() * 40}px;
+      `}
+    >
+      ♥
+    </span>
+  ))}
+</div>
+
+<style>
+  .hearts-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .heart {
+    position: absolute;
+    bottom: -5%;
+    left: var(--x);
+    font-size: var(--size);
+    color: var(--color-rose-light);
+    opacity: 0;
+    animation: heartFloatSway var(--duration) var(--delay) infinite;
+    will-change: transform, opacity;
+  }
+
+  /* Every other heart uses gold color */
+  .heart:nth-child(even) {
+    color: var(--color-gold-light);
+  }
+
+  .heart:nth-child(3n) {
+    color: var(--color-rose);
+  }
+
+  /* More organic float with horizontal sway */
+  @keyframes heartFloatSway {
+    0% {
+      opacity: 0;
+      transform: translateY(0) translateX(0) scale(0.5);
+    }
+    10% {
+      opacity: 0.6;
+    }
+    50% {
+      transform: translateY(-50vh) translateX(var(--sway)) scale(0.8);
+    }
+    90% {
+      opacity: 0.4;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-105vh) translateX(calc(var(--sway) * -1)) scale(1);
+    }
+  }
+
+  /* Hide half the hearts on smaller screens for performance */
+  @media (max-width: 480px) {
+    .heart:nth-child(n+8) {
+      display: none;
+    }
+  }
+</style>

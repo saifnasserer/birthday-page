@@ -1,0 +1,72 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hearts from '../components/Hearts.astro';
+import Hero from '../components/Hero.astro';
+import ScrollPrompt from '../components/ScrollPrompt.astro';
+import Timeline from '../components/Timeline.astro';
+import Ending from '../components/Ending.astro';
+import HiddenCard from '../components/HiddenCard.astro';
+import '../styles/global.css';
+---
+
+<Layout>
+  <!-- Floating hearts particle layer -->
+  <Hearts />
+
+  <!-- Main content -->
+  <main>
+    <!-- Hero: كل سنة وانتي حياتي ي عروستي -->
+    <Hero />
+
+    <!-- Scroll down prompt -->
+    <ScrollPrompt />
+
+    <!-- Video memories timeline -->
+    <Timeline />
+
+    <!-- Emotional closing message -->
+    <Ending />
+
+    <!-- The hidden surprise card -->
+    <HiddenCard />
+  </main>
+</Layout>
+
+<script>
+  // Fix mobile viewport height (100vh issue on iOS Safari)
+  function setVH() {
+    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+  }
+  setVH();
+  window.addEventListener('resize', setVH);
+
+  // Intersection Observer for scroll-triggered animations
+  // Using lower threshold on mobile for earlier reveals
+  const isMobile = window.innerWidth <= 768;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: isMobile ? 0.08 : 0.15,
+      rootMargin: isMobile ? '0px 0px -30px 0px' : '0px 0px -50px 0px',
+    }
+  );
+
+  document.querySelectorAll('[data-animate]').forEach((el) => {
+    observer.observe(el);
+  });
+</script>
+
+<style>
+  main {
+    position: relative;
+    z-index: 1;
+  }
+</style>

@@ -1,0 +1,243 @@
+---
+export interface Props {
+  videoSrc: string;
+  date: string;
+  caption: string;
+  index: number;
+}
+
+const { videoSrc, date, caption, index } = Astro.props;
+const isEven = index % 2 === 0;
+---
+
+<div
+  class={`video-card ${isEven ? 'card-right' : 'card-left'}`}
+  data-animate
+  data-animate-direction={isEven ? 'right' : 'left'}
+>
+  <!-- Timeline dot -->
+  <div class="timeline-dot">
+    <span class="dot-inner"></span>
+  </div>
+
+  <!-- Polaroid card -->
+  <div class="polaroid">
+    <!-- Tape decoration -->
+    <div class="tape"></div>
+
+    <div class="video-wrapper">
+      <video
+        controls
+        preload="metadata"
+        playsinline
+        webkit-playsinline
+        class="video-player"
+      >
+        <source src={videoSrc} type="video/mp4" />
+        متصفحك لا يدعم تشغيل الفيديو
+      </video>
+    </div>
+
+    <div class="card-info">
+      <time class="card-date">{date}</time>
+      <p class="card-caption">{caption}</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .video-card {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: var(--space-xl);
+    /* Animation — starts hidden, revealed by Intersection Observer */
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
+  }
+
+  /* Desktop: side animations */
+  @media (min-width: 769px) {
+    .video-card[data-animate-direction="right"] {
+      transform: translateX(50px);
+    }
+    .video-card[data-animate-direction="left"] {
+      transform: translateX(-50px);
+    }
+    .video-card.visible[data-animate-direction="right"],
+    .video-card.visible[data-animate-direction="left"] {
+      transform: translateX(0);
+    }
+  }
+
+  .video-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .video-card.card-right {
+    align-self: flex-end;
+    margin-left: auto;
+    padding-left: var(--space-lg);
+  }
+
+  .video-card.card-left {
+    align-self: flex-start;
+    margin-right: auto;
+    padding-right: var(--space-lg);
+  }
+
+  /* Timeline dot on the line */
+  .timeline-dot {
+    position: absolute;
+    top: 2rem;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-bg-deep);
+    border: 2px solid var(--color-gold);
+    z-index: 2;
+  }
+
+  .card-right .timeline-dot {
+    right: calc(100% + 24px);
+    transform: translateX(50%);
+  }
+
+  .card-left .timeline-dot {
+    left: calc(100% + 24px);
+    transform: translateX(-50%);
+  }
+
+  .dot-inner {
+    position: absolute;
+    inset: 2px;
+    border-radius: 50%;
+    background: var(--color-gold);
+  }
+
+  /* Polaroid card */
+  .polaroid {
+    position: relative;
+    background: var(--color-bg-card);
+    border-radius: 6px;
+    padding: 10px 10px 14px 10px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.3s var(--ease-smooth), box-shadow 0.3s var(--ease-smooth);
+  }
+
+  /* Desktop hover effect */
+  @media (min-width: 769px) {
+    .video-card:hover .polaroid {
+      transform: scale(1.02);
+      box-shadow: var(--shadow-card-hover);
+    }
+  }
+
+  /* Mobile active/tap effect */
+  @media (max-width: 768px) {
+    .polaroid:active {
+      transform: scale(0.98);
+    }
+  }
+
+  /* Tape decoration */
+  .tape {
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 70px;
+    height: 20px;
+    background: rgba(212, 168, 83, 0.25);
+    border-radius: 2px;
+    z-index: 3;
+  }
+
+  .card-left .tape {
+    transform: translateX(-50%) rotate(2deg);
+  }
+
+  .video-wrapper {
+    position: relative;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #111;
+    /* Use 9:16 aspect ratio on mobile for vertical videos */
+    aspect-ratio: 9 / 16;
+  }
+
+  .video-player {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background: #000;
+  }
+
+  .card-info {
+    padding-top: 10px;
+    text-align: center;
+  }
+
+  .card-date {
+    display: block;
+    font-family: var(--font-calligraphy);
+    font-size: 1.05rem;
+    color: var(--color-text-caption);
+    margin-bottom: 4px;
+  }
+
+  .card-caption {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--color-text-dark);
+    font-weight: 300;
+    line-height: 1.6;
+    min-height: 1.4em;
+  }
+
+  /* ── Mobile: stack cards centered, clean layout ── */
+  @media (max-width: 768px) {
+    .video-card {
+      max-width: 100%;
+      padding: 0 !important;
+      margin-bottom: var(--space-lg);
+    }
+
+    .video-card.card-right,
+    .video-card.card-left {
+      align-self: center;
+      margin: 0 auto var(--space-lg);
+      padding: 0;
+    }
+
+    .timeline-dot {
+      display: none;
+    }
+
+    .polaroid {
+      border-radius: 8px;
+      padding: 8px 8px 12px 8px;
+    }
+
+    .tape {
+      width: 60px;
+      height: 18px;
+      top: -6px;
+    }
+
+    .video-wrapper {
+      border-radius: 4px;
+    }
+
+    .card-date {
+      font-size: 1rem;
+    }
+
+    .card-caption {
+      font-size: 0.85rem;
+    }
+  }
+</style>
