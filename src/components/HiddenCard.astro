@@ -1,6 +1,6 @@
 ---
 // Hidden Card — The secret surprise at the end
-// Reveals with confetti explosion
+// Reveals a heartfelt letter with a confetti explosion
 ---
 
 <section class="hidden-section" id="hidden-section">
@@ -18,21 +18,23 @@
         <div class="envelope-shimmer"></div>
       </div>
 
-      <!-- The revealed content (hidden initially) -->
+      <!-- The revealed letter -->
       <div class="envelope-reveal" id="envelope-reveal">
         <div class="reveal-bg"></div>
-        <div class="reveal-content">
-          <div class="reveal-sparkles" aria-hidden="true">
-            <span class="sparkle s1">✦</span>
-            <span class="sparkle s2">✧</span>
-            <span class="sparkle s3">✦</span>
-            <span class="sparkle s4">✧</span>
-            <span class="sparkle s5">✦</span>
-            <span class="sparkle s6">✧</span>
+        
+        <div class="letter-paper">
+          <div class="letter-content">
+            <p>عيدميلادك السنة دي مميز اوي الحقيقه ، لية مميز ؟</p>
+            <p>اولاً هيبقا سهل تفتكري اول يوم دخلت فيه بيتكم واول يوم كلت من ايديكي ، قعدت مع عيلتك وعرفوني كلهم وكانوا مبسوطين ، ايقنت انك بتاعتي خلاص وانا جيت اخدك زي م قولتلك دايماً</p>
+            <p>اما تاني حاجة ف هو اخر عيدميلاد ليكي هبقا بحارب فيه عشان اشوفك ، اخر عيدميلاد هتقضية لواحدك ايامنا اللي جاية سوا ي روو كل ايامنا بأذن الله ، كل اللي فات ده حاجة واللي جاي حاجة تانية خالص ، عيدميلادك النهارده هو يوم فاضل ل حياتنا اللي فاتت وايامنا اللي جاية سوا ، اوعدك هخليكي دايماً مبسوطه واحاول دايماً اخليكي تضحكي ، دايماً اشوف ابتسامتك</p>
+            <p>بيتنا هنبنية سوا زي م احنا عايزين بالظبط ، هيبقا عندنا لوزة وبكيزة واخر اليوم هتنامي ف حضني</p>
+            <p>عيدميلادك ده هو الاخير اللي هتبقي فية بعيد عن حضني ، بحبك اوي بحبك اوي بجد</p>
+            <br>
+            <p>متأكد انك رزقي في الدنيا ، اصل مش طبيعي ، انتي مش طبيعيه خالص ازاي تبقي حلوة بالشكل ده !</p>
+            <p>ازاي تبهريني دايماً بالشكل ده ؟ بحب كل حاجة فيكي كل حاجة شخصيتك احلامك حبك ليا ، ريأكشناتك وملامح وشك بحب تفاصيلك اوي بحب شكل عيونك ، بحب صوابع ايدك بحب امسك ايدك اوي ابوسها بحب كل حاجة فيكي ي روو ، انتي مخدرات بالنسبالي وانا ادمنتك ، ادمنت تفاصيلك ، انا عايز باقي حياتي معاكي ، معاكي وبس اوعدك دايماً هحاول اخليكي مبسوطه دايماً - بحبك</p>
           </div>
-          <p class="reveal-text">كل اعيادك اللي جاية معايا وفي بيتنا سوا بأذن الله</p>
-          <span class="reveal-heart">💗كل يوم في حياتك هيبقا حياتنا </span>
         </div>
+        
       </div>
     </div>
   </div>
@@ -51,7 +53,7 @@
 
       // Main burst
       confetti({
-        particleCount: 80,
+        particleCount: 100,
         spread: 80,
         origin: { y: 0.6, x: 0.5 },
         colors: colors,
@@ -63,7 +65,7 @@
       // Side bursts
       setTimeout(() => {
         confetti({
-          particleCount: 50,
+          particleCount: 60,
           angle: 60,
           spread: 55,
           origin: { x: 0.1, y: 0.6 },
@@ -74,7 +76,7 @@
 
       setTimeout(() => {
         confetti({
-          particleCount: 50,
+          particleCount: 60,
           angle: 120,
           spread: 55,
           origin: { x: 0.9, y: 0.6 },
@@ -82,11 +84,11 @@
           gravity: 0.8,
         });
       }, 350);
-
-      // Final rose burst
+      
+      // Final romantic burst
       setTimeout(() => {
         confetti({
-          particleCount: 30,
+          particleCount: 40,
           spread: 120,
           origin: { y: 0.5, x: 0.5 },
           colors: ['#c4727a', '#e8a5ab'],
@@ -97,33 +99,35 @@
       }, 550);
     }
 
-    function revealSecret() {
-      if (isRevealed) return;
+    function revealSecret(e) {
+      // Don't close or re-trigger if already revealed
+      if (isRevealed) {
+        // Only prevent default if they aren't trying to scroll
+        return;
+      }
       isRevealed = true;
 
+      // Add classes for animations
       envelope?.classList.add('opened');
       reveal?.classList.add('visible');
+      document.getElementById('hidden-section')?.classList.add('revealed');
 
-      // Small vibration feedback on mobile if supported
+      // Vibrate on mobile
       if ('vibrate' in navigator) {
         navigator.vibrate([50, 30, 50]);
       }
 
       triggerConfetti();
-
-      document.getElementById('hidden-section')?.classList.add('revealed');
     }
 
+    // Envelope click
     envelope?.addEventListener('click', revealSecret);
-    // Touch support
-    envelope?.addEventListener('touchend', (e) => {
-      e.preventDefault();
-      revealSecret();
-    });
+    
+    // Keyboard support
     envelope?.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        revealSecret();
+        revealSecret(e);
       }
     });
   });
@@ -135,6 +139,7 @@
     z-index: 1;
     background: var(--color-bg-deep);
     transition: background 1.5s var(--ease-smooth);
+    min-height: 100vh;
   }
 
   .hidden-section.revealed {
@@ -147,14 +152,14 @@
   }
 
   .spacer {
-    height: 25vh;
+    height: 15vh;
   }
 
   .hidden-card-container {
     display: flex;
     justify-content: center;
     padding-bottom: var(--space-2xl);
-    min-height: 50vh;
+    min-height: 60vh;
     align-items: center;
     /* Animation */
     opacity: 0;
@@ -170,8 +175,8 @@
   /* Envelope */
   .envelope {
     position: relative;
-    width: 180px;
-    height: 150px;
+    width: 220px;
+    height: 160px;
     cursor: pointer;
     transition: transform 0.3s var(--ease-smooth);
     outline: none;
@@ -181,15 +186,24 @@
     user-select: none;
   }
 
+  /* When opened, reset dimensions and position for the letter */
+  .envelope.opened {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    cursor: default;
+    transform: none !important;
+  }
+
   /* Desktop hover */
   @media (min-width: 769px) {
-    .envelope:hover {
+    .envelope:not(.opened):hover {
       transform: scale(1.08);
     }
   }
 
   /* Mobile active tap */
-  .envelope:active {
+  .envelope:not(.opened):active {
     transform: scale(0.95);
   }
 
@@ -227,8 +241,9 @@
 
   .envelope.opened .envelope-front {
     opacity: 0;
-    transform: scale(0.7) rotateY(90deg);
+    transform: scale(0.5) translateY(100px);
     pointer-events: none;
+    position: absolute;
   }
 
   .envelope-seal {
@@ -239,7 +254,7 @@
 
   .envelope-hint {
     font-family: var(--font-calligraphy);
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: var(--color-text-caption);
     opacity: 0.8;
     animation: fadeIn 2s infinite alternate;
@@ -262,7 +277,10 @@
   /* Reveal */
   .envelope-reveal {
     position: absolute;
-    inset: -120px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -271,72 +289,90 @@
     transition: opacity 0.8s 0.3s var(--ease-smooth);
   }
 
-  .envelope-reveal.visible {
+  .envelope.opened .envelope-reveal {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
     opacity: 1;
+    pointer-events: auto;
   }
 
   .reveal-bg {
-    position: absolute;
-    inset: -200px;
+    position: fixed;
+    inset: 0;
     background: var(--gradient-reveal);
     animation: fadeIn 1s forwards;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 1s var(--ease-smooth);
+  }
+  
+  .envelope.opened .reveal-bg {
+    opacity: 1;
   }
 
-  .reveal-content {
+  /* The Letter Paper */
+  .letter-paper {
+    background: #fdfaf6;
+    background-image: 
+      linear-gradient(rgba(212, 168, 83, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(212, 168, 83, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    padding: var(--space-xl) var(--space-lg);
+    border-radius: 8px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(212, 168, 83, 0.1);
+    max-width: 90vw;
+    width: 100%;
+    transform: translateY(40px) scale(0.95);
+    opacity: 0;
+    transition: transform 1s 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s 0.4s var(--ease-smooth);
     position: relative;
-    text-align: center;
   }
 
-  .reveal-text {
-    font-family: var(--font-calligraphy);
-    font-size: clamp(2.5rem, 12vw, 5rem);
-    font-weight: 700;
-    color: var(--color-gold);
-    animation: scaleIn 0.8s 0.4s var(--ease-bounce) backwards, textGlow 3s 1.2s infinite;
-    filter: drop-shadow(0 0 30px rgba(212, 168, 83, 0.5));
-    white-space: nowrap;
-  }
-
-  .reveal-heart {
-    display: block;
-    font-size: 2.5rem;
-    margin-top: var(--space-sm);
-    animation: scaleIn 0.6s 0.8s var(--ease-bounce) backwards, float 2s 1.5s infinite;
-  }
-
-  /* Sparkles around the text */
-  .reveal-sparkles {
+  .letter-paper::before {
+    content: '';
     position: absolute;
-    inset: -50px;
-    pointer-events: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+    opacity: 0.5;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
   }
 
-  .sparkle {
-    position: absolute;
-    color: var(--color-gold-light);
-    font-size: 0.9rem;
-    animation: sparkle 2s infinite;
+  .envelope.opened .letter-paper {
+    transform: translateY(0) scale(1);
+    opacity: 1;
   }
 
-  .s1 { top: 0; left: 20%; animation-delay: 0s; }
-  .s2 { top: 10%; right: 10%; animation-delay: 0.3s; }
-  .s3 { bottom: 20%; left: 5%; animation-delay: 0.6s; }
-  .s4 { bottom: 0; right: 20%; animation-delay: 0.9s; }
-  .s5 { top: 40%; left: -5%; animation-delay: 1.2s; color: var(--color-rose-light); }
-  .s6 { top: 30%; right: 0%; animation-delay: 1.5s; color: var(--color-rose-light); }
+  .letter-content {
+    font-family: var(--font-body);
+    font-size: 1.15rem;
+    color: #3d2c23;
+    line-height: 2.2;
+    font-weight: 400;
+    text-align: right;
+  }
 
-  /* ── Mobile ── */
+  .letter-content p {
+    margin-bottom: 1.2rem;
+  }
+  
+  .letter-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Mobile */
   @media (max-width: 768px) {
     .spacer {
-      height: 18vh;
+      height: 10vh;
     }
 
-    .hidden-card-container {
-      min-height: 45vh;
-    }
-
-    .envelope {
-      width: 170px;
+    .envelope:not(.opened) {
+      width: 180px;
       height: 140px;
     }
 
@@ -344,12 +380,14 @@
       font-size: 2.2rem;
     }
 
-    .envelope-reveal {
-      inset: -80px;
+    .letter-paper {
+      padding: var(--space-lg) var(--space-md);
+      border-radius: 6px;
     }
 
-    .reveal-heart {
-      font-size: 2rem;
+    .letter-content {
+      font-size: 1rem;
+      line-height: 2;
     }
   }
 </style>
