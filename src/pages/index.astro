@@ -1,7 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hearts from '../components/Hearts.astro';
-import Hero from '../components/Hero.astro';
+// import Hero from '../components/Hero.astro';
+import NewHero from '../components/NewHero.astro';
 import ScrollPrompt from '../components/ScrollPrompt.astro';
 import Timeline from '../components/Timeline.astro';
 import Ending from '../components/Ending.astro';
@@ -15,8 +16,11 @@ import '../styles/global.css';
 
   <!-- Main content -->
   <main>
-    <!-- Hero: كل سنة وانتي حياتي ي عروستي -->
-    <Hero />
+    <!-- Old Hero (Hidden as requested) -->
+    <!-- <Hero /> -->
+    
+    <!-- New Hero: English phrase with picture -->
+    <NewHero />
 
     <!-- Scroll down prompt -->
     <ScrollPrompt />

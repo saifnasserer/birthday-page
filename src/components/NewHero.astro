@@ -1,0 +1,184 @@
+---
+// New Hero section
+// Replaces the old Arabic hero with a new English phrase and picture
+---
+
+<section class="hero" id="hero">
+  <div class="hero-bg-overlay"></div>
+  
+  <div class="hero-content">
+    <div class="hero-polaroid-container">
+      <div class="polaroid fade-in-up" data-animate>
+        <div class="tape"></div>
+        <div class="image-wrapper">
+          <img src="/Pics/IMG_0417.JPG" alt="Our Picture" class="hero-image" />
+        </div>
+      </div>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="hero-line hero-line-1">Let's end this chapter</span>
+      <span class="hero-line hero-line-2">CAUSE the next is</span>
+      <span class="hero-line hero-line-3">2 hot 2 handle</span>
+    </h1>
+    
+    <div class="hero-subtitle">
+      <span class="hero-heart">🔥</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-hero);
+    overflow: hidden;
+  }
+
+  .hero-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-card-glow);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: var(--space-md);
+    opacity: 0;
+    animation: fadeIn 1.5s var(--ease-smooth) forwards;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Polaroid for the picture */
+  .hero-polaroid-container {
+    margin-bottom: var(--space-xl);
+  }
+
+  .polaroid {
+    position: relative;
+    background: var(--color-bg-card);
+    border-radius: 6px;
+    padding: 12px 12px 24px 12px;
+    box-shadow: var(--shadow-card);
+    transform: rotate(-3deg);
+    animation: sway 6s infinite var(--ease-smooth);
+    max-width: 280px;
+  }
+
+  .tape {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%) rotate(2deg);
+    width: 80px;
+    height: 24px;
+    background: rgba(212, 168, 83, 0.25);
+    border-radius: 2px;
+    z-index: 3;
+    backdrop-filter: blur(2px);
+  }
+
+  .image-wrapper {
+    position: relative;
+    border-radius: 2px;
+    overflow: hidden;
+    background: #111;
+    aspect-ratio: 3 / 4;
+  }
+
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Typography */
+  .hero-title {
+    font-family: 'Playfair Display', serif, var(--font-calligraphy);
+    font-weight: 700;
+    line-height: 1.4;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    direction: ltr; /* English text */
+  }
+
+  .hero-line {
+    display: block;
+    opacity: 0;
+    animation: fadeInUp 1.2s var(--ease-smooth) forwards;
+  }
+
+  .hero-line-1 {
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    color: var(--color-text-cream);
+    animation-delay: 0.5s;
+    font-weight: 400;
+  }
+
+  .hero-line-2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    color: var(--color-text-caption);
+    animation-delay: 1s;
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .hero-line-3 {
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    color: var(--color-gold);
+    animation-delay: 1.5s;
+    background: linear-gradient(
+      90deg,
+      var(--color-gold-light),
+      var(--color-gold),
+      var(--color-gold-light)
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeInUp 1.2s 1.5s var(--ease-smooth) forwards, shimmer 4s 2.5s infinite linear;
+    font-style: italic;
+  }
+
+  .hero-subtitle {
+    margin-top: var(--space-md);
+    opacity: 0;
+    animation: fadeIn 1s 2s var(--ease-smooth) forwards;
+  }
+
+  .hero-heart {
+    font-size: 2.5rem;
+    display: inline-block;
+    animation: float 3s 2.3s infinite var(--ease-smooth);
+    filter: drop-shadow(0 0 20px rgba(212, 168, 83, 0.4));
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .hero-content {
+      padding: var(--space-md) var(--space-sm);
+    }
+    
+    .polaroid {
+      max-width: 240px;
+    }
+
+    .hero-title {
+      gap: 0.3rem;
+    }
+  }
+</style>
